@@ -41,7 +41,7 @@
   }
 
   header {
-    @apply sm:mt-10 mt-5;
+    @apply sm:mt-1 mt-2;
   }
 
   header img {
@@ -55,7 +55,7 @@
   }
 
   .wrapper {
-    @apply px-5 py-12 xs:p-10 max-w-7xl mx-auto flex flex-col relative z-10;
+    @apply px-5 py-15 xs:p-1 max-w-7xl mx-auto flex flex-col relative z-10;
   }
 
   .trending {
@@ -79,7 +79,7 @@
   }
 
   .search {
-    @apply w-full bg-light-100/5 px-4 py-3 rounded-lg mt-10 max-w-3xl mx-auto;
+    @apply w-full bg-light-100/5 px-4 py-3 rounded-lg mt-5 max-w-3xl mx-auto;
 
     & div {
       @apply relative flex items-center;

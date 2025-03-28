@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import Search from "./components/Search"
 import Spinner from "./components/spinner";
 import Moviecard from "./components/Moviecard";
+import {useDebounce} from "react-use"
+
 
 const API_BASE_URL="https://api.themoviedb.org/3"
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -20,14 +22,20 @@ function App() {
   const[errorMessage,setErrorMessage] = useState("")
   const[movieList,setMovieList] = useState([])
   const [loading,setLoading] = useState(false)
+  const [debounceSearcheTerm,setDebounceSearchTerm] = useState("")
 
 // Fetching the movies
 
- const fetchMovies = async() =>{
+  useDebounce( () => setDebounceSearchTerm(searchTerm),2000,[searchTerm])
+
+ const fetchMovies = async(query ='') =>{
   setLoading(true)
   setErrorMessage("")
     try{
-      const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`
+      const endpoint = query 
+      ?`${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}` 
+      :`${API_BASE_URL}/discover/movie?sort_by=popularity.desc`
+
       const response = await fetch(endpoint,API_OPTIONS);
 
       if (!response.ok){
@@ -55,8 +63,8 @@ function App() {
 
 
   useEffect(() =>{
-    fetchMovies()
-  },[])
+    fetchMovies(debounceSearcheTerm)
+  },[debounceSearcheTerm])
 
   return (
     <main >
@@ -68,7 +76,7 @@ function App() {
                 <img src="./hero.png" alt="Hero banner" />
                  <h1>Find <span className="text-gradient">Movies </span> You'll Enjoy Without the Hassel</h1>
               </header>
-              <Search searchtext={searchTerm} setSearchText={setSearchTerm}/>
+              <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
 
 
 
